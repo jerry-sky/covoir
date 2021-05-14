@@ -1,6 +1,7 @@
 import Express from 'express'
 import Axios, { AxiosRequestConfig } from 'axios'
 import { Environment } from './environment'
+import { CountriesCodes } from './countries/countries'
 
 const express = Express()
 const port = 3000
@@ -37,7 +38,6 @@ const cacheLongevity = 1000 * 60 * 60 * 6
 // Cache the results.
 type Data = Record<string, unknown> | null
 let statisticsCache: Data = null
-let countriesCache: Data = null
 
 let cacheSetupTime = Date.now()
 const isCacheExpired = () => {
@@ -62,18 +62,7 @@ express.get('/statistics', async (_, res, next) => {
 })
 
 express.get('/countries', async (_, res, next) => {
-    let data: Data = null
-    if (countriesCache != null && !isCacheExpired()) {
-        data = countriesCache
-    } else {
-        const response = await Axios.request({
-            ...options,
-            url: composeUrl(apiHost, 'countries'),
-        })
-        data = response.data
-        countriesCache = data
-        cacheSetupTime = Date.now()
-    }
+    const data = CountriesCodes
     res.json(data)
     next()
 })
