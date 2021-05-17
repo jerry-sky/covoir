@@ -1,7 +1,7 @@
 import Express from 'express'
 import Axios, { AxiosRequestConfig } from 'axios'
 import { Environment } from './environment'
-import { CountriesCodes } from './countries/countries'
+import { countriesCodes } from './countries/countries'
 
 const express = Express()
 const port = 3000
@@ -62,7 +62,7 @@ express.get('/statistics', async (_, res, next) => {
 })
 
 express.get('/countries', async (_, res, next) => {
-    const data = CountriesCodes
+    const data = countriesCodes
     res.json(data)
     next()
 })
