@@ -8,7 +8,7 @@ f=$!
 # start the backend program
 cd ..
 cd backend
-npx nodemon -e ts -x 'npx tsc -p tsconfig.json && node dist' -w . &
+npx nodemon -e ts -x 'npx tsc -p tsconfig.json && node dist/backend || exit 1' -w . &
 b=$!
 
 # kill both of these programs on exit
