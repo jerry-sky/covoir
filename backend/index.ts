@@ -3,10 +3,40 @@ import Axios, { AxiosRequestConfig } from 'axios'
 import { Environment } from './environment'
 import { countriesCodes } from './countries/countries'
 
-const express = Express()
-const port = 3000
+const port = process.env.PORT || 3000
 
 const apiHost = Environment.API_HOST
+
+const express = Express()
+express.set('trust proxy', 1)
+// origin access: check if origin is approved to connect
+express.use((req, res, next) => {
+    const origin = req.headers.origin
+    if (!origin) {
+        res.end()
+        return
+    }
+    const originsWithAccess = ['covoir.jerry-sky.me']
+    // optional origins with access for local testing
+    if (Environment.PRODUCTION === 'false') {
+        originsWithAccess.push('http://localhost:4200')
+        originsWithAccess.push('https://web.postman.co/')
+    }
+    // check if origin is on the list
+    if (originsWithAccess.indexOf(origin) > -1) {
+        res.header('Access-Control-Allow-Origin', origin)
+        res.header('Access-Control-Allow-Credentials', 'true')
+        res.header('Access-Control-Allow-Headers', 'Content-Type,X-XSRF-TOKEN')
+        res.header('X-Content-Type-Options', 'nosniff')
+        res.header(
+            'Access-Control-Allow-Methods',
+            'POST, OPTIONS, GET, DELETE, PUT'
+        )
+        res.header('Accept', 'application/json')
+    }
+
+    next()
+})
 
 /**
  * Default abstract Axios request options.
