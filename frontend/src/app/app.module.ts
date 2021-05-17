@@ -15,9 +15,16 @@ import { MatIconModule, MatIconRegistry } from '@angular/material/icon'
 import { MatToolbarModule } from '@angular/material/toolbar'
 import { MatSidenavModule } from '@angular/material/sidenav'
 import { MatListModule } from '@angular/material/list'
+import { AboutComponent } from './about/about.component'
+import { MatSortModule } from '@angular/material/sort'
+import { MatFormFieldModule } from '@angular/material/form-field'
+import { MatInputModule } from '@angular/material/input'
+import { MatCheckboxModule } from '@angular/material/checkbox'
+import { FormsModule } from '@angular/forms'
+import { MatTooltipModule } from '@angular/material/tooltip'
 
 @NgModule({
-    declarations: [AppComponent, StatsTableComponent],
+    declarations: [AppComponent, StatsTableComponent, AboutComponent],
     imports: [
         BrowserModule,
         AppRoutingModule,
@@ -30,6 +37,12 @@ import { MatListModule } from '@angular/material/list'
         MatToolbarModule,
         MatSidenavModule,
         MatListModule,
+        MatSortModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatCheckboxModule,
+        FormsModule,
+        MatTooltipModule,
     ],
     providers: [
         MyHttpInterceptor,

@@ -1,15 +1,38 @@
 <p class="title">Current COVID-19 per-country statistics</p>
 
+<div class="modifiers">
+    <mat-form-field class="filter">
+        <mat-label>Filter</mat-label>
+        <input
+            matInput
+            (keyup)="applyFilter($event)"
+            placeholder="USA, France, Germany…"
+            #input
+            matTooltip="You can search for multiple countries, by providing a comma-separated list"
+        />
+    </mat-form-field>
+    <mat-checkbox
+        class="toggle-1M"
+        [ngModel]="toggle1M | async"
+        (ngModelChange)="toggle1M.next($event)"
+    >
+        Show per 1M
+    </mat-checkbox>
+</div>
+
 <div class="table-wrapper">
     <table
         mat-table
+        matSort
         [dataSource]="dataSource"
         multiTemplateDataRows
         class="mat-elevation-z8"
         #table
     >
         <ng-container matColumnDef="country">
-            <th mat-header-cell *matHeaderCellDef>Country</th>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                Country/ Continent
+            </th>
             <td mat-cell *matCellDef="let element" class="country-cell">
                 <div class="img-wrapper">
                     <img
@@ -29,27 +52,92 @@
             </td>
         </ng-container>
 
-        <ng-container matColumnDef="cases">
-            <th mat-header-cell *matHeaderCellDef>Cases</th>
+        <ng-container matColumnDef="activeCases">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                Active cases
+            </th>
             <td mat-cell *matCellDef="let element">
-                {{ element.cases }}
+                {{
+                    (element.activeCases >= 0 ? element.activeCases : 0)
+                        | number
+                }}
             </td>
         </ng-container>
 
-        <ng-container matColumnDef="expandedDetail">
-            <td
-                mat-cell
-                *matCellDef="let element"
-                [attr.colspan]="columns.length"
-            >
-                <div
-                    class="country-details"
-                    [style.display]="
-                        element === expandedElement ? 'initial' : 'none'
-                    "
-                >
-                    <p>MERDASISKO</p>
-                </div>
+        <ng-container matColumnDef="newCases">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>New cases</th>
+            <td mat-cell *matCellDef="let element">
+                <mat-icon *ngIf="element.newCases === 0">
+                    trending_flat
+                </mat-icon>
+                <mat-icon *ngIf="element.newCases > 0">trending_up</mat-icon>
+                <mat-icon *ngIf="element.newCases < 0">
+                    trending_down
+                </mat-icon>
+                {{ element.newCases | number }}
+            </td>
+        </ng-container>
+
+        <ng-container matColumnDef="totalRecovered">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                Total recovered
+            </th>
+            <td mat-cell *matCellDef="let element">
+                {{ element.totalRecovered | number }}
+            </td>
+        </ng-container>
+
+        <ng-container matColumnDef="totalCases">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                Total cases
+            </th>
+            <td mat-cell *matCellDef="let element">
+                {{ element.totalCases | number }}
+            </td>
+        </ng-container>
+
+        <ng-container matColumnDef="totalCases1M">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                Total cases /1M
+            </th>
+            <td mat-cell *matCellDef="let element">
+                {{ element.totalCases1M | number }}
+            </td>
+        </ng-container>
+
+        <ng-container matColumnDef="totalTests">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                Total tests
+            </th>
+            <td mat-cell *matCellDef="let element">
+                {{ element.totalTests1M | number }}
+            </td>
+        </ng-container>
+
+        <ng-container matColumnDef="totalTests1M">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                Total tests /1M
+            </th>
+            <td mat-cell *matCellDef="let element">
+                {{ element.totalTests1M | number }}
+            </td>
+        </ng-container>
+
+        <ng-container matColumnDef="totalDeaths">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                Total Deaths
+            </th>
+            <td mat-cell *matCellDef="let element">
+                {{ element.totalDeaths | number }}
+            </td>
+        </ng-container>
+
+        <ng-container matColumnDef="totalDeaths1M">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                Total Deaths /1M
+            </th>
+            <td mat-cell *matCellDef="let element">
+                {{ element.totalDeaths1M | number }}
             </td>
         </ng-container>
 
@@ -58,20 +146,13 @@
             mat-row
             *matRowDef="let element; columns: columns"
             class="country-row"
-            [class.example-expanded-row]="expandedElement === element"
-            (click)="
-                expandedElement = expandedElement === element ? null : element
-            "
-        ></tr>
-        <tr
-            mat-row
-            *matRowDef="let row; columns: ['expandedDetail']"
-            class="country-details-row"
         ></tr>
     </table>
 </div>
-<mat-paginator
-    [pageSizeOptions]="[25, 50, 100, 300]"
-    showFirstLastButtons
-    (page)="resetTableScroll()"
-></mat-paginator>
+<div class="paginator-wrapper">
+    <mat-paginator
+        [pageSizeOptions]="[50, 100, 300]"
+        showFirstLastButtons
+        (page)="resetTableScroll()"
+    ></mat-paginator>
+</div>
