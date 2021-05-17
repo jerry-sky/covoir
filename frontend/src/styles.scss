@@ -36,8 +36,9 @@ $light-background: #efefef;
 $dark-font-colour: #efefef;
 $light-font-colour: #222;
 
-html,
-body { height: 100%; }
+* {
+    box-sizing: border-box;
+}
 
 body {
     margin: 0;

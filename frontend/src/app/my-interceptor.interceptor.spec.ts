@@ -10,9 +10,7 @@ describe('MyHttpInterceptor ', () => {
     )
 
     it('should be created', () => {
-        const interceptor: MyHttpInterceptor = TestBed.inject(
-            MyHttpInterceptor
-        )
+        const interceptor: MyHttpInterceptor = TestBed.inject(MyHttpInterceptor)
         expect(interceptor).toBeTruthy()
     })
 })

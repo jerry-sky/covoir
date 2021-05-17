@@ -1,3 +1,5 @@
+<p class="title">Current COVID-19 per-country statistics</p>
+
 <div class="table-wrapper">
     <table
         mat-table
@@ -23,7 +25,7 @@
                         <mat-icon>public</mat-icon>
                     </ng-template>
                 </div>
-                {{ element.country }}
+                <span [innerHTML]="element.country"></span>
             </td>
         </ng-container>
 

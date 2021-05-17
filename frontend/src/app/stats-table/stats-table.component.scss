@@ -1,6 +1,10 @@
+.title {
+    font-style: italic;
+    font-size: 125%;
+    margin: 20px 0;
+}
+
 .table-wrapper {
-    height: 400px;
-    overflow-y: scroll;
     overflow-x: auto;
 }
 
@@ -30,19 +34,21 @@ table {
         display: inline-block;
         width: $width;
         height: $width;
-
         margin-right: 5px;
 
         img {
             width: $width;
             vertical-align: middle;
         }
+
         mat-icon {
             width: $width;
             height: $width;
             $size: $width * 0.6;
+
             font-size: $size;
             $size-padding: ($width - $size) / 2;
+
             padding-left: $size-padding;
             padding-top: $size-padding;
             vertical-align: middle;

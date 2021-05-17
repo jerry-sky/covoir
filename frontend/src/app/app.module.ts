@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core'
-import { BrowserModule } from '@angular/platform-browser'
+import { BrowserModule, DomSanitizer } from '@angular/platform-browser'
 
 import { AppRoutingModule } from './app-routing.module'
 import { AppComponent } from './app.component'
@@ -11,7 +11,10 @@ import { MatButtonModule } from '@angular/material/button'
 import { StatsTableComponent } from './stats-table/stats-table.component'
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http'
 import { MyHttpInterceptor } from './my-interceptor.interceptor'
-import { MatIconModule } from '@angular/material/icon'
+import { MatIconModule, MatIconRegistry } from '@angular/material/icon'
+import { MatToolbarModule } from '@angular/material/toolbar'
+import { MatSidenavModule } from '@angular/material/sidenav'
+import { MatListModule } from '@angular/material/list'
 
 @NgModule({
     declarations: [AppComponent, StatsTableComponent],
@@ -24,6 +27,9 @@ import { MatIconModule } from '@angular/material/icon'
         MatPaginatorModule,
         MatButtonModule,
         MatIconModule,
+        MatToolbarModule,
+        MatSidenavModule,
+        MatListModule,
     ],
     providers: [
         MyHttpInterceptor,
@@ -35,4 +41,15 @@ import { MatIconModule } from '@angular/material/icon'
     ],
     bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule {
+    constructor(iconRegistry: MatIconRegistry, sanitizer: DomSanitizer) {
+        iconRegistry.addSvgIcon(
+            'github',
+            sanitizer.bypassSecurityTrustResourceUrl('../assets/github.svg')
+        )
+        iconRegistry.addSvgIcon(
+            'jerry-sky',
+            sanitizer.bypassSecurityTrustResourceUrl('../assets/jerry-sky.svg')
+        )
+    }
+}
