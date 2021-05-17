@@ -2,6 +2,7 @@ import Express from 'express'
 import Axios, { AxiosRequestConfig } from 'axios'
 import { Environment } from './environment'
 import { countriesCodes } from './countries/countries'
+import { CountriesCodesMap } from '../model/countries'
 
 const port = process.env.PORT || 3000
 
@@ -93,7 +94,9 @@ express.get('/statistics', async (_, res, next) => {
 
 express.get('/countries', async (_, res, next) => {
     const data = countriesCodes
-    res.json(data)
+    const map: CountriesCodesMap = {}
+    data.forEach((c) => (map[c.name] = c.code))
+    res.json(map)
     next()
 })
 

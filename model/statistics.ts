@@ -7,8 +7,8 @@ type DatetimeString = string
 export interface StatisticsResponseCountry {
     cases: {
         '1M_pop': OneMillionPopCases
-        active: 73
-        critical: 3
+        active: number
+        critical: number
         new: NewCases
         recovered: number
         total: TotalCases
