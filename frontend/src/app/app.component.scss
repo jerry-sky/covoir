@@ -1,3 +1,5 @@
+@import '../settings';
+
 .sidenav-container {
     .sidenav {
         width: 200px;
@@ -7,8 +9,6 @@
         }
     }
 }
-
-$super-header-height: 64px;
 
 .super-header {
     height: $super-header-height;
@@ -40,25 +40,32 @@ $super-header-height: 64px;
     }
 }
 
-.super-container {
-    min-height: calc(100vh - #{$super-header-height});
-    margin: $super-header-height 20% 0;
-}
-
-@media (max-width: 1024px) {
+@media (min-width: $big-device+1) {
     .super-container {
         margin: 0 15%;
     }
 }
 
-@media (max-width: 768px) {
+@media (max-width: $big-device) {
     .super-container {
         margin: 0 10%;
     }
 }
 
-@media (max-width: 600px) {
+@media (max-width: $medium-device) {
+    .super-container {
+        margin: 0 8%;
+    }
+}
+
+@media (max-width: $small-device) {
     .super-container {
         margin: 0 5px;
     }
+}
+
+.super-container {
+    height: calc(100vh - #{$super-header-height});
+    margin-top: $super-header-height;
+    overflow: hidden;
 }
