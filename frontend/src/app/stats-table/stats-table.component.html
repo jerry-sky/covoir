@@ -1,0 +1,75 @@
+<div class="table-wrapper">
+    <table
+        mat-table
+        [dataSource]="dataSource"
+        multiTemplateDataRows
+        class="mat-elevation-z8"
+        #table
+    >
+        <ng-container matColumnDef="country">
+            <th mat-header-cell *matHeaderCellDef>Country</th>
+            <td mat-cell *matCellDef="let element" class="country-cell">
+                <div class="img-wrapper">
+                    <img
+                        class="country-flag"
+                        *ngIf="
+                            getCountryCode(element.country);
+                            else othIcon;
+                            let tmp
+                        "
+                        [src]="tmp"
+                    />
+                    <ng-template #othIcon>
+                        <mat-icon>public</mat-icon>
+                    </ng-template>
+                </div>
+                {{ element.country }}
+            </td>
+        </ng-container>
+
+        <ng-container matColumnDef="cases">
+            <th mat-header-cell *matHeaderCellDef>Cases</th>
+            <td mat-cell *matCellDef="let element">
+                {{ element.cases }}
+            </td>
+        </ng-container>
+
+        <ng-container matColumnDef="expandedDetail">
+            <td
+                mat-cell
+                *matCellDef="let element"
+                [attr.colspan]="columns.length"
+            >
+                <div
+                    class="country-details"
+                    [style.display]="
+                        element === expandedElement ? 'initial' : 'none'
+                    "
+                >
+                    <p>MERDASISKO</p>
+                </div>
+            </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="columns; sticky: true"></tr>
+        <tr
+            mat-row
+            *matRowDef="let element; columns: columns"
+            class="country-row"
+            [class.example-expanded-row]="expandedElement === element"
+            (click)="
+                expandedElement = expandedElement === element ? null : element
+            "
+        ></tr>
+        <tr
+            mat-row
+            *matRowDef="let row; columns: ['expandedDetail']"
+            class="country-details-row"
+        ></tr>
+    </table>
+</div>
+<mat-paginator
+    [pageSizeOptions]="[25, 50, 100, 300]"
+    showFirstLastButtons
+    (page)="resetTableScroll()"
+></mat-paginator>
