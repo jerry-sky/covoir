@@ -1,10 +1,13 @@
 import { HttpClient } from '@angular/common/http'
 import { Injectable } from '@angular/core'
-import { Observable } from 'rxjs'
+import { Observable, of } from 'rxjs'
 import { environment } from '../../environments/environment'
 import { CountriesCodesMap } from '../../../../model/countries'
-import { StatisticsResponse } from '../../../../model/statistics'
-import { map } from 'rxjs/operators'
+import {
+    StatisticsResponse,
+    StatisticsResponseCountry,
+} from '../../../../model/statistics'
+import { map, tap } from 'rxjs/operators'
 
 @Injectable({
     providedIn: 'root',
@@ -12,17 +15,39 @@ import { map } from 'rxjs/operators'
 export class BackendService {
     constructor(private http: HttpClient) {}
 
+    countriesCodes: CountriesCodesMap | null = null
+    statistics: StatisticsResponseCountry[] | null = null
+
     getCountries() {
-        return this.http.get(
-            environment.API_URL + 'countries'
-        ) as Observable<CountriesCodesMap>
+        if (this.countriesCodes === null) {
+            return (
+                this.http.get(
+                    environment.API_URL + 'countries'
+                ) as Observable<CountriesCodesMap>
+            ).pipe(
+                tap((data) => {
+                    this.countriesCodes = data
+                })
+            )
+        } else {
+            return of(this.countriesCodes)
+        }
     }
 
     getStatistics() {
-        return (
-            this.http.get(
-                environment.API_URL + 'statistics'
-            ) as Observable<StatisticsResponse>
-        ).pipe(map((response) => response.response))
+        if (this.statistics === null) {
+            return (
+                this.http.get(
+                    environment.API_URL + 'statistics'
+                ) as Observable<StatisticsResponse>
+            ).pipe(
+                map((response) => {
+                    this.statistics = response.response
+                    return response.response
+                })
+            )
+        } else {
+            return of(this.statistics)
+        }
     }
 }
