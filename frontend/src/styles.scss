@@ -46,6 +46,28 @@ body {
     color: $dark-font-colour;
 }
 
+mat-paginator {
+    .mat-paginator-container {
+        flex-direction: row-reverse !important;
+    }
+}
+
+@media (max-width: 500px) {
+    mat-paginator {
+        width: 500px;
+    }
+
+    .paginator-wrapper {
+        overflow-x: scroll;
+        height: 56px;
+        overflow-y: hidden;
+    }
+
+    .mat-paginator-container {
+        flex-wrap: nowrap !important;
+    }
+}
+
 // Apply the light theme only when the `.my-light-theme` CSS class is applied
 // to an ancestor element of the components (such as `body`).
 .my-light-theme {
