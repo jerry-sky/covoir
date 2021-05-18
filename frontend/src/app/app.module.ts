@@ -58,6 +58,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner'
 })
 export class AppModule {
     constructor(iconRegistry: MatIconRegistry, sanitizer: DomSanitizer) {
+        // register some custom icons mat-icons
         iconRegistry.addSvgIcon(
             'github',
             sanitizer.bypassSecurityTrustResourceUrl('../assets/github.svg')

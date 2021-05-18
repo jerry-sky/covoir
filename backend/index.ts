@@ -5,19 +5,35 @@ import { countriesCodes } from './countries/countries'
 import { CountriesCodesMap } from '../model/countries'
 import { StatisticsResponse } from '../model/statistics'
 
+/**
+ * Port which will the server run on.
+ *
+ * Heroku can provide a different port.
+ */
 const port = process.env.PORT || 3000
 
+/**
+ * The base URL to the COVID-19 API.
+ */
 const apiHost = Environment.API_HOST
 
+// initialize the express app
 const express = Express()
+
+// Heroku will probably have the server running *somewhere* locally,
+// and route the ports around, so we need to give them our trust
+// in doing it correctly
 express.set('trust proxy', 1)
+
 // origin access: check if origin is approved to connect
 express.use((req, res, next) => {
+    // the Origin header is required
     const origin = req.headers.origin
     if (!origin) {
         res.end()
         return
     }
+
     const originsWithAccess = ['https://covoir.jerry-sky.me']
     // optional origins with access for local testing
     if (Environment.NODE_ENV !== 'production') {
@@ -76,30 +92,40 @@ const isCacheExpired = () => {
     return Date.now() >= cacheSetupTime + cacheLongevity
 }
 
+// The main statistics API route.
 express.get('/statistics', async (_, res, next) => {
     let data: Data = null
     if (statisticsCache != null && !isCacheExpired()) {
+        // use cache if available and not stale
         data = statisticsCache
     } else {
+        // otherwise request new set of data from the COVID-19 API
         const response = await Axios.request({
             ...options,
             url: composeUrl(apiHost, 'statistics'),
         })
         data = response.data
+        // sort the response by country name
         data?.response.sort((a, b) =>
             a.country < b.country ? -1 : a.country > b.country ? 1 : 0
         )
+        // save to cache for later
         statisticsCache = data
         cacheSetupTime = Date.now()
     }
+    // send it
     res.json(data)
     next()
 })
 
+// A map between countries’ names and their codes.
+// Used for determining the URL to countries’ flags.
 express.get('/countries', async (_, res, next) => {
     const data = countriesCodes
     const map: CountriesCodesMap = {}
+    // map it
     data.forEach((c) => (map[c.name] = c.code))
+    // send it
     res.json(map)
     next()
 })

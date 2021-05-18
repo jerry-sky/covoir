@@ -1,5 +1,6 @@
-node_modules
 *.*
-makefile
 !*.css
 !*.scss
+makefile
+dist
+node_modules

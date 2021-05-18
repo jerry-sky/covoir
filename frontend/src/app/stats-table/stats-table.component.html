@@ -9,6 +9,7 @@
             placeholder="USA, France, Germany…"
             #input
             matTooltip="You can search for multiple countries, by providing a comma-separated list"
+            matTooltipPosition="above"
         />
     </mat-form-field>
     <mat-checkbox
@@ -42,13 +43,14 @@
                     <img
                         class="country-flag"
                         *ngIf="
-                            getCountryCode(element.country);
+                            getCountryFlagURL(element.country);
                             else othIcon;
                             let tmp
                         "
                         [src]="tmp"
                     />
                     <ng-template #othIcon>
+                        <!-- if no icon found, use the default ‘world’ icon -->
                         <mat-icon>public</mat-icon>
                     </ng-template>
                 </div>

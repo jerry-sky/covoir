@@ -1,5 +1,7 @@
 import Dotenv from 'dotenv'
 
+// Dotenv behaves not appropriately when deployed on Heroku.
+// All environment variables have been defined through the Heroku dashboard.
 if (process.env.NODE_ENV !== 'production') {
     Dotenv.config()
 }
@@ -17,7 +19,3 @@ interface EnvironmentVariables {
  * All expected NodeJS process variables.
  */
 export const Environment = process.env as unknown as EnvironmentVariables
-
-if (Object.keys(Environment).length === 0) {
-    throw new Error('.env file not found')
-}
