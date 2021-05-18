@@ -22,6 +22,7 @@ import { MatInputModule } from '@angular/material/input'
 import { MatCheckboxModule } from '@angular/material/checkbox'
 import { FormsModule } from '@angular/forms'
 import { MatTooltipModule } from '@angular/material/tooltip'
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner'
 
 @NgModule({
     declarations: [AppComponent, StatsTableComponent, AboutComponent],
@@ -43,6 +44,7 @@ import { MatTooltipModule } from '@angular/material/tooltip'
         MatCheckboxModule,
         FormsModule,
         MatTooltipModule,
+        MatProgressSpinnerModule,
     ],
     providers: [
         MyHttpInterceptor,

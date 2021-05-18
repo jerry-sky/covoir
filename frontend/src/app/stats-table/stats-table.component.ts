@@ -5,6 +5,7 @@ import { MatTableDataSource } from '@angular/material/table'
 import { MatPaginator } from '@angular/material/paginator'
 import { MatSort, MatSortable } from '@angular/material/sort'
 import { BehaviorSubject } from 'rxjs'
+import { delay } from 'rxjs/operators'
 
 const COLUMNS_STANDARD = [
     'country',
@@ -36,6 +37,8 @@ export class StatsTableComponent implements AfterViewInit {
      * A pointer to the currently opened element.
      */
     expandedElement = null
+
+    isLoading = true
 
     toggle1M = new BehaviorSubject(false)
 
@@ -84,6 +87,7 @@ export class StatsTableComponent implements AfterViewInit {
                     }
                 })
                 this.updateTableDataSource()
+                this.isLoading = false
             },
         })
     }
