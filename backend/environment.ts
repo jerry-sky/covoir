@@ -1,6 +1,8 @@
 import Dotenv from 'dotenv'
 
-Dotenv.config()
+if (process.env.NODE_ENV !== 'production') {
+    Dotenv.config()
+}
 
 /**
  * All expected NodeJS process variables.
@@ -8,7 +10,7 @@ Dotenv.config()
 interface EnvironmentVariables {
     API_KEY: string
     API_HOST: string
-    PRODUCTION: 'false' | 'true'
+    NODE_ENV: string
 }
 
 /**

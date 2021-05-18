@@ -19,7 +19,7 @@ express.use((req, res, next) => {
     }
     const originsWithAccess = ['covoir.jerry-sky.me']
     // optional origins with access for local testing
-    if (Environment.PRODUCTION === 'false') {
+    if (Environment.NODE_ENV !== 'production') {
         originsWithAccess.push('http://localhost:4200')
         originsWithAccess.push('https://web.postman.co/')
     }
