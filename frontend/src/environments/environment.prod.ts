@@ -1,4 +1,4 @@
 export const environment = {
     production: true,
-    API_URL: 'https://covoir.herokuapp.com',
+    API_URL: 'https://covoir.herokuapp.com/',
 }
