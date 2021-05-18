@@ -17,7 +17,7 @@ express.use((req, res, next) => {
         res.end()
         return
     }
-    const originsWithAccess = ['covoir.jerry-sky.me']
+    const originsWithAccess = ['https://covoir.jerry-sky.me']
     // optional origins with access for local testing
     if (Environment.NODE_ENV !== 'production') {
         originsWithAccess.push('http://localhost:4200')
