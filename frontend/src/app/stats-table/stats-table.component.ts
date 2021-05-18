@@ -74,7 +74,7 @@ export class StatsTableComponent implements AfterViewInit {
                         country: x.country,
                         totalCases: x.cases.total,
                         activeCases: x.cases.active,
-                        newCases: x.cases.new ? parseInt(x.cases.new) : 0,
+                        newCases: x.cases.new ? parseInt(x.cases.new) : null,
                         totalRecovered: x.cases.recovered,
                         totalCases1M: x.cases['1M_pop'],
                         totalDeaths: x.deaths.total,

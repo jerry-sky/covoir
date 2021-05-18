@@ -60,8 +60,11 @@ table {
     }
 }
 
+$country-column-width: 25%;
+
 .mat-column-country {
     flex: none;
+    width: $country-column-width;
 }
 
 .mat-column-cases {
@@ -78,6 +81,27 @@ table {
         margin-right: -$offset;
         margin-left: $offset;
         margin-top: $offset;
+    }
+}
+
+$columns: (
+    'activeCases',
+    'newCases',
+    'totalRecovered',
+    'totalCases',
+    'totalTests',
+    'totalDeaths',
+    // --
+    'totalCases1M',
+    'totalTests1M',
+    'totalDeaths1M',
+);
+
+.mat-column- {
+    @each $col in $columns {
+        &#{$col} {
+            width: (100% - $country-column-width) / 6;
+        }
     }
 }
 
