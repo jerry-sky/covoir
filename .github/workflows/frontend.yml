@@ -1,0 +1,44 @@
+name: 'Frontend build'
+
+on:
+    push:
+        branches: [master]
+
+jobs:
+    build:
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Checkout master
+              uses: actions/checkout@v2
+
+            - name: Checkout gh-pages to frontend/dist
+              uses: actions/checkout@v2
+              with:
+                path: frontend/dist
+                ref: gh-pages
+
+            - name: Setup Node
+              uses: actions/setup-node@v2
+              with:
+                node-version: '14'
+
+            - name: Install NPM dependencies
+              run: npm install -f
+              working-directory: frontend
+
+            - name: Render the Angular app
+              run: npx ng build --configuration production --delete-output-path=false
+              working-directory: frontend
+
+            - name: Get current time
+              uses: gerred/current-time@v1.0.0
+              id: current-time
+
+            - name: Push to gh-pages
+              uses: EndBug/add-and-commit@v7.2.1
+              with:
+                cwd: 'frontend/dist'
+                add: '.'
+                branch: gh-pages
+                message: 'deployed on ${{ steps.current-time.outputs.time }}'
