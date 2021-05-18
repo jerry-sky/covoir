@@ -3,6 +3,7 @@ import Axios, { AxiosRequestConfig } from 'axios'
 import { Environment } from './environment'
 import { countriesCodes } from './countries/countries'
 import { CountriesCodesMap } from '../model/countries'
+import { StatisticsResponse } from '../model/statistics'
 
 const port = process.env.PORT || 3000
 
@@ -67,7 +68,7 @@ const cacheLongevity = 1000 * 60 * 60 * 6
 // Pass through all necessary API endpoints.
 
 // Cache the results.
-type Data = Record<string, unknown> | null
+type Data = StatisticsResponse | null
 let statisticsCache: Data = null
 
 let cacheSetupTime = Date.now()
@@ -85,6 +86,9 @@ express.get('/statistics', async (_, res, next) => {
             url: composeUrl(apiHost, 'statistics'),
         })
         data = response.data
+        data?.response.sort((a, b) =>
+            a.country < b.country ? -1 : a.country > b.country ? 1 : 0
+        )
         statisticsCache = data
         cacheSetupTime = Date.now()
     }
